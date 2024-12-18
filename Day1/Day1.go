@@ -25,8 +25,7 @@ func main() {
 	fmt.Println("FINAL ANSWER:", finalAnswer)
 }
 
-func readFile(filepath string) ([]string, []string) {
-	var list1, list2 []string
+func readFile(filepath string) (list1, list2 []string) {
 	file, err := os.Open(filepath)
 	defer file.Close()
 
@@ -48,7 +47,7 @@ func readFile(filepath string) ([]string, []string) {
 		log.Fatal(err)
 	}
 
-	return list1, list2
+	return
 }
 
 func sortSlice(list []string) []string {
