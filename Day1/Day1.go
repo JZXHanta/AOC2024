@@ -4,22 +4,25 @@ import (
 	"bufio"
 	"fmt"
 	"log"
+	"math"
 	"os"
 	"sort"
+	"strconv"
 	"strings"
 )
 
 var INPUT string = "./input.txt"
 
 func main() {
-	fmt.Println("Hello, AOC!")
 	leftList, rightList := readFile(INPUT)
 
 	leftListSorted := sortSlice(leftList)
 	rightListSorted := sortSlice(rightList)
 
-	fmt.Println(leftListSorted)
-	fmt.Println(rightListSorted)
+	diffArray := getDifferences(leftListSorted, rightListSorted)
+
+	finalAnswer := addAllArrayValues(diffArray)
+	fmt.Println("FINAL ANSWER:", finalAnswer)
 }
 
 func readFile(filepath string) ([]string, []string) {
@@ -34,14 +37,11 @@ func readFile(filepath string) ([]string, []string) {
 	scanner := bufio.NewScanner(file)
 
 	for scanner.Scan() {
-		// fmt.Println(scanner.Text())
 		line := scanner.Text()
 		left := strings.Split(line, "   ")[0]
 		list1 = append(list1, left)
 		right := strings.Split(line, "   ")[1]
 		list2 = append(list2, right)
-		// fmt.Println("LEFT:", left, "RIGHT:", right, "\n")
-
 	}
 
 	if err := scanner.Err(); err != nil {
@@ -49,7 +49,6 @@ func readFile(filepath string) ([]string, []string) {
 	}
 
 	return list1, list2
-
 }
 
 func sortSlice(list []string) []string {
@@ -58,4 +57,26 @@ func sortSlice(list []string) []string {
 	})
 
 	return list
+}
+
+func getDifferences(list1, list2 []string) (differenceArray []int) {
+
+	for i := 0; i < len(list1); i++ {
+		leftVal, err := strconv.Atoi(list1[i])
+		if err != nil {
+			panic(err)
+		}
+		rightVal, err := strconv.Atoi(list2[i])
+		differenceArray = append(differenceArray, leftVal-rightVal)
+	}
+
+	return
+}
+
+func addAllArrayValues(list []int) (finalAnswer int) {
+	for i := 0; i < len(list); i++ {
+		finalAnswer += int(math.Abs(float64(list[i])))
+	}
+
+	return
 }
