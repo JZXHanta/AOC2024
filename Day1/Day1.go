@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-var INPUT string = "./input.txt"
+const INPUT string = "./input.txt"
 
 func main() {
 	leftList, rightList := readFile(INPUT)
